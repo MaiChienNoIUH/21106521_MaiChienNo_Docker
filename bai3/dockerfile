@@ -1,0 +1,23 @@
+# Chọn base image
+FROM node:18-alpine
+
+# Thiết lập thư mục làm việc
+WORKDIR /app
+
+# Sao chép package.json và package-lock.json vào container
+COPY package*.json ./
+
+# Cài đặt các phụ thuộc
+RUN npm install
+
+# Sao chép toàn bộ mã nguồn của ứng dụng vào container
+COPY . .
+
+# Build ứng dụng React
+RUN npm run build
+
+# Cung cấp port mà ứng dụng sẽ chạy
+EXPOSE 3000
+
+# Chạy ứng dụng với serve (hoặc bất kỳ server nào bạn đã cấu hình)
+CMD ["npx", "serve", "build"]
